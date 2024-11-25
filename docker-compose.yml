@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+        context: .
+    env_file:
+        - docker.env
+    container_name: task_tracker
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgdb
+    command: poerty run python manage.py runserver
+
+  pgdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: pgdb
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+
+volumes:
+  pgdbdata: null
